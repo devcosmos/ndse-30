@@ -1,0 +1,18 @@
+{
+  "name": "002-console",
+  "version": "1.0.0",
+  "main": "first.js",
+  "bin": {
+    "get-date": "./first.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "yargs": "^17.7.2"
+  }
+}

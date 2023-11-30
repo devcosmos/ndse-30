@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "first.js",
   "bin": {
-    "get-date": "./first.js"
+    "get-date": "./first.js",
+    "make-number": "./second.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -22,7 +22,7 @@ export const store = {
       'true',
       'fileCover.jpg',
       'fileName.pdf',
-      'publick/books/the-invisible-man.jpeg',
+      'public/books/the-invisible-man.jpeg',
     ),
   ],
 };

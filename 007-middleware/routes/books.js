@@ -78,4 +78,19 @@ booksRouter.delete('/:id', (req, res) => {
   }
 });
 
+// получить файл книги по ID
+booksRouter.get('/:id/download', (req, res) => {
+  const { books } = store;
+  const { id } = req.params;
+
+  const idx = books.findIndex(el => el.id === id);
+
+  if (idx !== -1) {
+    res.download(books[idx].fileBook);
+  } else {
+    res.status(404);
+    res.json('404 | Книга не найдена');
+  }
+});
+
 export default booksRouter;

@@ -24,5 +24,14 @@ export const store = {
       'fileName.pdf',
       'public/books/the-invisible-man.jpeg',
     ),
+    new Book(
+      'Машина времени',
+      'Основная часть этого романа описывает мир будущего (802 701 год), в который отправляется Путешественник во Времени.',
+      'Герберта Уэллс',
+      'true',
+      'fileCover.jpg',
+      'fileName.pdf',
+      'public/books/the-time-machine.jpeg',
+    ),
   ],
 };

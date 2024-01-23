@@ -8,6 +8,7 @@ import { error404, error400 } from './middleware/error.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -20,4 +21,4 @@ app.use('/books', booksRouter);
 app.use('/400', error400);
 app.use(error404);
 
-app.listen(3000);
+app.listen(PORT);

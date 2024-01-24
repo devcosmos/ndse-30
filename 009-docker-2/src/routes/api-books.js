@@ -18,7 +18,16 @@ apiBooksRouter.get('/:id', (req, res) => {
   const idx = books.findIndex(el => el.id === id);
 
   if (idx !== -1) {
-    res.json(books[idx]);
+    fetch(`${process.env.COUNTER_URL}/counter/${id}/incr`, { method: 'POST' })
+      .then(response => response.text())
+      .then(result => {
+        books[idx].count = result;
+        
+        res.json(books[idx]);
+      }).catch(() => {
+        res.status(500);
+        res.json('500 | Внутренняя ошибка сервера');
+      });
   } else {
     res.status(404);
     res.json('404 | Книга не найдена');

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export class Book {
-  constructor(title = "", description = "", authors = "", favorite = "", fileCover = "", fileName = "", fileBook = "", id = uuidv4()) {
+  constructor(title = "", description = "", authors = "", favorite = "", fileCover = "", fileName = "", fileBook = "", count = 0, id = uuidv4()) {
       this.id = id;
       this.title = title;
       this.description = description;
@@ -10,6 +10,7 @@ export class Book {
       this.fileCover = fileCover;
       this.fileName = fileName;
       this.fileBook = fileBook;
+      this.count = count;
   }
 }
 

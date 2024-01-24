@@ -50,10 +50,16 @@ booksRouter.get('/:id', (req, res) => {
     res.redirect('/404');
   }
 
-  res.render('books/view', {
-    title: books[idx].title,
-    book: books[idx],
-  });
+  fetch(`${process.env.COUNTER_URL}/counter/${id}/incr`, { method: 'POST' })
+    .then(response => response.text())
+    .then(result => {
+      books[idx].count = result;
+
+      res.render('books/view', {
+        title: books[idx].title,
+        book: books[idx],
+      });
+    }).catch(() => res.redirect('/500'));
 });
 
 // Вывод формы редактирования книги

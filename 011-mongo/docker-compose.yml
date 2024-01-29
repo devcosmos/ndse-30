@@ -1,8 +1,4 @@
 services:
-  storage: 
-    image: redis
-    volumes:
-      - ./data:/data
   mongo:
     image: mongo
     restart: always
@@ -15,19 +11,6 @@ services:
     restart: always
     ports:
       - 8081:8081
-  counter:
-    image: libs
-    volumes:
-      - ./:/app
-    working_dir: /app
-    ports:
-      - 4002:4002
-    environment:
-      - COUNTER_PORT=4002
-      - REDIS_URL=redis://storage
-    command: npm run counter-start
-    depends_on:
-      - storage
   libs:
     image: libs
     volumes:
@@ -37,10 +20,7 @@ services:
       - 80:3002
     environment:
       - PORT=3002
-      - COUNTER_URL=http://counter:4002
       - MONGO_URL=mongodb://mongo:27017
     command: npm run dev
     depends_on:
-      - counter
-      - storage
       - mongo

@@ -9,6 +9,7 @@
       <a href="/books/create" class="btn btn-primary">Добавить новую книгу</a>
     </div>
   </div>
+  <% if (books.length) { %>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -25,6 +26,9 @@
       <% }) %>
     </tbody>
   </table>
+  <% } else { %>
+    <p>Книг пока нет.</p>
+  <% }%>
 </section>
 
 <%- include('../base/footer') %>

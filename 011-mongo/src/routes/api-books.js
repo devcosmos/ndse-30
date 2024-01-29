@@ -25,7 +25,7 @@ apiBooksRouter.get('/:id', async (req, res) => {
 
     res.json(book);
   } catch (e) {
-    res.status(500).json(e);
+    res.status(404).json('404 | Книга не найдена');
   }
 });
 
@@ -64,7 +64,7 @@ apiBooksRouter.put('/:id', async (req, res) => {
     await Book.findByIdAndUpdate(id, newBook);
     res.redirect(`/api/books/${id}`);
   } catch (e) {
-    res.status(500).json(e);
+    res.status(404).json('404 | Книга не найдена');
   }
 });
 
@@ -77,7 +77,7 @@ apiBooksRouter.delete('/:id', async (req, res) => {
 
     res.json('ok');
   } catch (e) {
-    res.status(500).json(e);
+    res.status(404).json('404 | Книга не найдена');
   }
 });
 

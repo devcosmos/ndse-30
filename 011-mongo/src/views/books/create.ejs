@@ -1,0 +1,9 @@
+<%- include('../base/head', { title: title }) %>
+<%- include('../base/nav') %>
+
+<section class="container py-5">
+  <h1 class="my-4"><%= title %></h1>
+  <%- include('./form', { book: book, requiredBookFile: requiredBookFile }) %>
+</section>
+
+<%- include('../base/footer') %>

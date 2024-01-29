@@ -10,7 +10,7 @@ import { error404, error400, error500 } from './middleware/error.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
-const URL_DB = process.env.MONGO_URL;
+const URL_DB = process.env.MONGO_URL  + '/test';
 
 const app = express();
 

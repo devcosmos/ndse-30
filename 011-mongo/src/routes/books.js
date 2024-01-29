@@ -30,12 +30,12 @@ booksRouter.get('/create', (req, res) => {
 // Добавление новой книги
 booksRouter.post('/create', fileMulter.single('fileBook'), async (req, res) => { 
   if (req.file) {
+    const { title, description, authors, favorite, fileCover, fileName } = req.body;
+    const { path } = req.file;
+
+    const newBook = new Book({ title, description, authors, favorite, fileCover, fileName, fileBook: path });
+    
     try {
-      const { title, description, authors, favorite, fileCover, fileName } = req.body;
-      const { path } = req.file;
-  
-      const newBook = new Book({ title, description, authors, favorite, fileCover, fileName, fileBook: path });
-  
       await newBook.save();
       res.redirect('/books');
     } catch (e) {
@@ -48,8 +48,9 @@ booksRouter.post('/create', fileMulter.single('fileBook'), async (req, res) => {
 
 // Вывод информации по ID книги
 booksRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const book = await Book.findById(id).select('-__v');
 
     res.render('books/view', {
@@ -63,8 +64,9 @@ booksRouter.get('/:id', async (req, res) => {
 
 // Вывод формы редактирования книги
 booksRouter.get('/update/:id', async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const book = await Book.findById(id).select('-__v');
 
     res.render('books/update', {
@@ -79,17 +81,17 @@ booksRouter.get('/update/:id', async (req, res) => {
 
 // Обновить книгу
 booksRouter.post('/update/:id', fileMulter.single('fileBook'), async (req, res) => { 
+  const { id } = req.params;
+  const { title, description, authors, favorite, fileCover, fileName } = req.body;
+
+  const newBook = { title, description, authors, favorite, fileCover, fileName };
+  
+  if (req.file) {
+    const { path } = req.file;
+    newBook.fileBook = path;
+  }
+
   try {
-    const { id } = req.params;
-    const { title, description, authors, favorite, fileCover, fileName } = req.body;
-
-    const newBook = { title, description, authors, favorite, fileCover, fileName };
-
-    if (req.file) {
-      const { path } = req.file;
-      newBook.fileBook = path;
-    }
-
     await Book.findByIdAndUpdate(id, newBook);
     res.redirect('/books');
   } catch (e) {

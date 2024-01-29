@@ -1,11 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
 const bookSchema = new Schema({
-  id: {
-    type: 'string',
-    default: uuidv4(),
-  }, 
   title: {
     type: 'string',
     require: true,
@@ -27,6 +22,10 @@ const bookSchema = new Schema({
     require: true,
   },
   fileName: {
+    type: 'string',
+    require: true,
+  },
+  fileBook: {
     type: 'string',
     require: true,
   }

@@ -21,7 +21,7 @@
       <% books.map((item, index) => { %> 
         <tr>
           <th scope="row"><%= ++index %></th>
-          <td><a href="/books/<%= item.id %>"><%= item.title %></a></td>
+          <td><a href="/books/<%= item._id %>"><%= item.title %></a></td>
         </tr>
       <% }) %>
     </tbody>

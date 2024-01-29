@@ -3,6 +3,18 @@ services:
     image: redis
     volumes:
       - ./data:/data
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=db
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
   counter:
     image: libs
     volumes:
@@ -26,7 +38,9 @@ services:
     environment:
       - PORT=3002
       - COUNTER_URL=http://counter:4002
-    command: npm run start
+      - MONGO_URL=mongodb://mongo:27017
+    command: npm run dev
     depends_on:
       - counter
       - storage
+      - mongo

@@ -31,4 +31,4 @@ const bookSchema = new Schema({
   }
 });
 
-export const Books = model('Books', bookSchema);
+export const Book = model('Books', bookSchema);

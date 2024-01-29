@@ -1,17 +1,21 @@
 import { Router } from 'express';
-import { store, Book } from '../store.js';
 import fileMulter from '../middleware/fileMulter.js';
+import { Book } from '../models/books.js';
 
 const booksRouter = Router();
 
 // Вывод списка всех книг
-booksRouter.get('/', (req, res) => {
-  const { books } = store;
-
-  res.render('books/index', {
-    title: 'Все книги',
-    books: books,
-  });
+booksRouter.get('/', async (req, res) => {
+  try {
+    const books = await Book.find();
+    
+    res.render('books/index', {
+      title: 'Все книги',
+      books: books,
+    });
+  } catch (e) {
+    res.redirect('/500');
+  }
 });
 
 // Вывод формы добавления новой книги
@@ -24,85 +28,73 @@ booksRouter.get('/create', (req, res) => {
 });
 
 // Добавление новой книги
-booksRouter.post('/create', fileMulter.single('fileBook'), (req, res) => { 
+booksRouter.post('/create', fileMulter.single('fileBook'), async (req, res) => { 
   if (req.file) {
-    const { books } = store;
-    const { title, description, authors, favorite, fileCover, fileName } = req.body;
-    const { path } = req.file;
+    try {
+      const { title, description, authors, favorite, fileCover, fileName } = req.body;
+      const { path } = req.file;
   
-    const newBook = new Book(title, description, authors, favorite, fileCover, fileName, path);
-    books.push(newBook);
+      const newBook = new Book({ title, description, authors, favorite, fileCover, fileName, fileBook: path });
   
-    res.redirect('/books');
+      await newBook.save();
+      res.redirect('/books');
+    } catch (e) {
+      res.redirect('/500');
+    }
   } else {
     res.redirect('/400');
   }
 });
 
 // Вывод информации по ID книги
-booksRouter.get('/:id', (req, res) => {
-  const { books } = store;
-  const { id } = req.params;
+booksRouter.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const book = await Book.findById(id).select('-__v');
 
-  const idx = books.findIndex(el => el.id === id);
-
-  if (idx === -1) {
-    res.redirect('/404');
+    res.render('books/view', {
+      title: book.title,
+      book: JSON.parse(JSON.stringify(book)),
+    });
+  } catch (e) {
+    res.redirect('/500');
   }
-
-  fetch(`${process.env.COUNTER_URL}/counter/${id}/incr`, { method: 'POST' })
-    .then(response => response.text())
-    .then(result => {
-      books[idx].count = result;
-
-      res.render('books/view', {
-        title: books[idx].title,
-        book: books[idx],
-      });
-    }).catch(() => res.redirect('/500'));
 });
 
 // Вывод формы редактирования книги
-booksRouter.get('/update/:id', (req, res) => {
-  const { books } = store;
-  const { id } = req.params;
+booksRouter.get('/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const book = await Book.findById(id).select('-__v');
 
-  const idx = books.findIndex(el => el.id === id);
-
-
-  if (idx === -1) {
-    res.redirect('/404');
-  } 
-
-  res.render('books/update', {
-    title: books[idx].title,
-    book: books[idx],
-    requiredBookFile: false,
-  });
+    res.render('books/update', {
+      title: book.title,
+      book: JSON.parse(JSON.stringify(book)),
+      requiredBookFile: false,
+    });
+  } catch (e) {
+    res.redirect('/500');
+  }
 });
 
 // Обновить книгу
-booksRouter.post('/update/:id', fileMulter.single('fileBook'), (req, res) => { 
-  const { books } = store;
-  const { id } = req.params;
-  const { title, description, authors, favorite, fileCover, fileName } = req.body;
+booksRouter.post('/update/:id', fileMulter.single('fileBook'), async (req, res) => { 
+  try {
+    const { id } = req.params;
+    const { title, description, authors, favorite, fileCover, fileName } = req.body;
 
-  const idx = books.findIndex(el => el.id === id);
+    const newBook = { title, description, authors, favorite, fileCover, fileName };
 
-  if (idx === -1) {
-    res.redirect('/404');
-  } 
+    if (req.file) {
+      const { path } = req.file;
+      newBook.fileBook = path;
+    }
 
-  books[idx] = {
-    ...books[idx], title, description, authors, favorite, fileCover, fileName
+    await Book.findByIdAndUpdate(id, newBook);
+    res.redirect('/books');
+  } catch (e) {
+    res.redirect('/500');
   }
-
-  if (req.file) {
-    const { path } = req.file;
-    books[idx].fileBook = path;
-  }
-
-  res.redirect('/books');
 });
 
 export default booksRouter;

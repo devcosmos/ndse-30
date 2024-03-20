@@ -1,0 +1,22 @@
+<% fields = ['title', 'description', 'authors', 'favorite', 'fileCover', 'fileName'] %>
+<form method="POST" enctype="multipart/form-data">
+  <% fields.map((filed) => { %>
+    <div class="mb-3 row">
+      <label for="<%= filed %>" class="col-sm-2 col-form-label fw-bold"><%= filed %></label>
+      <div class="col-sm-7">
+        <% if (filed === 'description') { %>
+          <textarea class="form-control" name="<%= filed %>" id="<%= filed %>" required rows="3"><%= book[filed] %></textarea>
+        <% } else { %>
+          <input type="text" class="form-control" name="<%= filed %>" id="<%= filed %>" value="<%= book[filed] %>" required>
+        <% } %>
+      </div>
+    </div>
+  <% }) %>
+  <div class="mb-5 row">
+    <label for="fileBook" class="col-sm-2 col-form-label fw-bold">fileBook</label>
+    <div class="col-sm-7">
+      <input class="form-control" type="file" id="fileBook" name="fileBook" <%= requiredBookFile ? 'required' : '' %>>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Отправить</button>
+</form>

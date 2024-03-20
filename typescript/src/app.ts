@@ -1,1 +1,1 @@
-console.log('adasda')
+console.log('adasda');

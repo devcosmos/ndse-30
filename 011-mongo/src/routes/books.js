@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import fileMulter from '../middleware/fileMulter.js';
 import { Book } from '../models/books.js';
+import { container } from '../container.js';
 
 const booksRouter = Router();
 
@@ -50,8 +51,10 @@ booksRouter.post('/create', fileMulter.single('fileBook'), async (req, res) => {
 booksRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
 
+  const repo = container.get(BooksRepository);
+
   try {
-    const book = await Book.findById(id).select('-__v');
+    const book = await repo.findById(id).select('-__v');
 
     res.render('books/view', {
       title: book.title,

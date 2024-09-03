@@ -1,8 +1,8 @@
-const http = require('http');
+import http from 'http';
 
 const HOST_URL = process.env.HOST_URL || '127.0.0.1';
 
-const setCounter = function (id) {
+export const setCounter = function (id: string | number) {
   const data = JSON.stringify({ bookId: id })
 
   const req = http.request(
@@ -28,7 +28,7 @@ const setCounter = function (id) {
   req.end();
 }
 
-const getCounter = function (id, callback) {
+export const getCounter = function (id: string | number, callback: (resp: any) => void) {
   const req = http.request(
     {
       hostname: HOST_URL,
@@ -42,6 +42,3 @@ const getCounter = function (id, callback) {
   })
   req.end();
 }
-
-exports.getCounter = getCounter;
-exports.setCounter = setCounter;

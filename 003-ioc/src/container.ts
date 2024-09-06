@@ -1,10 +1,9 @@
 import BookRepository from './BookRepository'
-require("reflect-metadata");
-const { Container, decorate, injectable } = require("inversify");
+import { Container, decorate, injectable } from "inversify";
 
 const container = new Container();
 
 decorate(injectable(), BookRepository);
 container.bind(BookRepository).toSelf()
 
-module.exports = container
+export default container

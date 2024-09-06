@@ -1,9 +1,9 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const fileMiddleware = require('../middleware/file')
-const { getCounter, setCounter } = require('./counterReq')
-const container = require('../container')
-const BooksRepository = require('../BookRepository')
+import fileMiddleware from '../middleware/file'
+import { getCounter, setCounter } from './counterReq'
+import container from '../container'
+import BooksRepository from '../BookRepository'
 
 router.get('/view', async (_req, res) => {
   try {
@@ -16,19 +16,21 @@ router.get('/view', async (_req, res) => {
 });
 
 
-router.get('/view/:id', async (req, res) => {
+
+
+router.get('/view/:id', async (req: any, res: any) => {
   const { id } = req.params
   try {
-    const repo = container.get(BooksRepository)
+    const repo: any = container.get(BooksRepository)
     const book = await repo.getBooks(id)
-    if (book !== -1) {
+    if (!book) {
       getCounter(id, (resp) => {
         if (resp.statusCode !== 500) {
-          resp.on('data', (d) => {
+          resp.on('data', (d: any) => {
             const count = JSON.parse(d).count;
             console.log(`Запрос прошел успешно, cnt - ${count}`);
             res.render('books/view', {
-              title: 'Выбранная книга', book: books, count: count
+              title: 'Выбранная книга', book: book, count: count
             });
           });
           setCounter(id);
@@ -41,16 +43,18 @@ router.get('/view/:id', async (req, res) => {
 });
 
 
+
+
 router.get('/create', (_req, res) => {
   res.render('books/create', { title: 'Добавить книгу', book: {} });
 });
 
-router.post('/create', fileMiddleware.single('file'), async (req, res) => {
+router.post('/create', fileMiddleware.single('file'), async (req: any, res: any) => {
   const { title, authors, description, favorite, fileCover, fileName } = req.body
   const fileBook = req.file ? req.file : null
 
   try {
-    const repo = container.get(BooksRepository)
+    const repo: any = container.get(BooksRepository)
     const book = await repo.createBook({ title, authors, description, favorite, fileCover, fileName, fileBook })
     await book.save();
     res.redirect("/books/view")
@@ -64,7 +68,7 @@ router.get('/update/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const repo = container.get(BooksRepository)
-    const book = await repo.getBooks(id)
+    const book = await repo.getBook(id)
     res.render('books/update', {
       title: 'Редактировать книгу',
       book: book,
@@ -79,7 +83,7 @@ router.post('/update/:id', fileMiddleware.single('file'), async (req, res) => {
   try {
     const { title, authors, description, favorite, fileCover, fileName } = req.body;
     const fileBook = req.file ? req.file : null;
-    const repo = container.get(BooksRepository);
+    const repo: any = container.get(BooksRepository);
     const book = await repo.getBook(id);
     await book.findByIdAndUpdate(id, { title, description, authors, favorite, fileCover, fileName, fileBook });
     res.status(200).redirect('/books/view/' + id);
@@ -91,7 +95,7 @@ router.post('/update/:id', fileMiddleware.single('file'), async (req, res) => {
 router.post('/delete/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const repo = container.get(BooksRepository)
+    const repo: any = container.get(BooksRepository)
     await repo.deleteOne({ _id: id });
     res.status(200).redirect("/books/view");
   } catch {
@@ -99,4 +103,4 @@ router.post('/delete/:id', async (req, res) => {
   };
 });
 
-module.exports = router;
+export = router;

@@ -27,7 +27,7 @@ docker compose up
 
 2. После выполнения доступны:
 - [api](http://localhost:4000)
-- [mongodb](http://localhost:27017)
+- [mongo-express-admin-panel](http://localhost:8081)
 
 3. По умолчанию реализованы доступы:
 

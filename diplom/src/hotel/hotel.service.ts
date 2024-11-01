@@ -6,6 +6,7 @@ import { Hotel, HotelDocument } from './schemas/hotel.schema';
 import { SearchHotelParams } from './interfaces/search-hotel-params';
 import { UpdateHotelParams } from './interfaces/update-hotel-params';
 import { IHotel } from './interfaces/hotel';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class HotelService implements IHotelService {
@@ -28,7 +29,7 @@ export class HotelService implements IHotelService {
     return this.hotelModel.findOne({ title });
   }
 
-  findById(id: string): Promise<HotelDocument> {
+  findById(id: ID): Promise<HotelDocument> {
     return this.hotelModel.findOne({ _id: id });
   }
 
@@ -42,7 +43,7 @@ export class HotelService implements IHotelService {
       .limit(limit);
   }
 
-  update(id: string, data: UpdateHotelParams): Promise<HotelDocument> {
+  update(id: ID, data: UpdateHotelParams): Promise<HotelDocument> {
     const hotel = this.findById(id);
     if (hotel) {
       return this.hotelModel.findOneAndUpdate(

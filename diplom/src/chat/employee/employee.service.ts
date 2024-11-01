@@ -5,6 +5,7 @@ import { ISupportRequestEmployeeService } from '../interfaces/support-request-em
 import { MarkMessagesAsReadDto } from '../interfaces/dto/mark-messages-as-read';
 import { SupportRequest } from '../schemas/support-request.schema';
 import { Message } from '../schemas/message.schema';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class SupportEmployeeService implements ISupportRequestEmployeeService {
@@ -34,7 +35,7 @@ export class SupportEmployeeService implements ISupportRequestEmployeeService {
     );
   }
 
-  async getUnreadCount(supportRequest: string): Promise<number> {
+  async getUnreadCount(supportRequest: ID): Promise<number> {
     const fondedSupportRequest = await this.supportRequestModel.findById(supportRequest);
     const userId = fondedSupportRequest.user;
     const messageIds = fondedSupportRequest.messages;
@@ -48,7 +49,7 @@ export class SupportEmployeeService implements ISupportRequestEmployeeService {
     return messages.length;
   }
 
-  closeRequest(supportRequest: string): Promise<void> {
+  closeRequest(supportRequest: ID): Promise<void> {
     return this.supportRequestModel.findByIdAndUpdate(supportRequest, {
       isActive: false,
     });

@@ -7,9 +7,11 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserResponseDto } from './interfaces/dto/create-user-response';
 import { GetUsersResponseDto } from './interfaces/dto/get-users-response';
 import { ISearchUserParams } from './interfaces/search-user-params';
+import { ID } from 'src/utils/types';
+import { IUsersService } from './interfaces/users-service';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUsersService {
   constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
 
   async getUsers(params: ISearchUserParams): Promise<GetUsersResponseDto[]> {
@@ -59,11 +61,11 @@ export class UsersService {
     }
   }
 
-  async findOneUser(email: string): Promise<any> {
+  async findOneUser(email: string): Promise<UserDocument> {
     return this.UserModel.findOne({ email: email }).exec();
   }
 
-  async findById(id: string): Promise<UserDocument> {
+  async findById(id: ID): Promise<UserDocument> {
     return this.UserModel.findOne({ _id: id });
   }
 }

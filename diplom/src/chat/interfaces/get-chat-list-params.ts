@@ -1,4 +1,6 @@
+import { ID } from 'src/utils/types';
+
 export interface GetChatListParams {
-  user: string | null;
+  user: ID | null;
   isActive: boolean;
 }

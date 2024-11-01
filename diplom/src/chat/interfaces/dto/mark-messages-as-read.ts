@@ -1,5 +1,7 @@
+import { ID } from 'src/utils/types';
+
 export interface MarkMessagesAsReadDto {
-  user: string;
-  supportRequest: string;
+  user: ID;
+  supportRequest: ID;
   createdBefore: Date;
 }

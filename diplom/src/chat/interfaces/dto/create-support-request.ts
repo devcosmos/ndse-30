@@ -1,4 +1,6 @@
+import { ID } from 'src/utils/types';
+
 export interface CreateSupportRequestDto {
-  user: string;
+  user: ID;
   text: string;
 }

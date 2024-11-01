@@ -1,5 +1,7 @@
+import { ID } from 'src/utils/types';
+
 export interface ReservationSearchOptions {
-  userId: string;
+  userId: ID;
   dateStart: Date;
   dateEnd: Date;
 }

@@ -6,6 +6,7 @@ import { MarkMessagesAsReadDto } from '../interfaces/dto/mark-messages-as-read';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Message } from '../schemas/message.schema';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class SupportClientService implements ISupportRequestClientService {
@@ -49,7 +50,7 @@ export class SupportClientService implements ISupportRequestClientService {
       }),
     );
   }
-  async getUnreadCount(supportRequest: string): Promise<number> {
+  async getUnreadCount(supportRequest: ID): Promise<number> {
     const fondedSupportRequest = await this.supportRequestModel.findById(supportRequest);
     const userId = fondedSupportRequest.user;
     const messageIds = fondedSupportRequest.messages;

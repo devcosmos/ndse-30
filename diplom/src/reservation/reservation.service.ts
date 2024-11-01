@@ -5,6 +5,7 @@ import { IReservation } from './interfaces/reservation';
 import { Reservation } from './schemas/reservation.schema';
 import { ReservationDto } from './interfaces/reservation-dto';
 import { ReservationSearchOptions } from './interfaces/reservation-search-options';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class ReservationService implements IReservation {
@@ -21,7 +22,7 @@ export class ReservationService implements IReservation {
     });
   }
 
-  async removeReservation(id: string): Promise<void> {
+  async removeReservation(id: ID): Promise<void> {
     await this.ReservationModel.deleteOne({ _id: id });
   }
 

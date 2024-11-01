@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { IRoomService } from '../interfaces/hotel-room-service';
 import { Room, HotelRoomDocument } from '../schemas/hotel-room.schema';
 import { SearchRoomsParams } from '../interfaces/search-rooms-params';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class RoomsService implements IRoomService {
@@ -23,7 +24,7 @@ export class RoomsService implements IRoomService {
     return room.save();
   }
 
-  findById(id: string): Promise<HotelRoomDocument> {
+  findById(id: ID): Promise<HotelRoomDocument> {
     return this.HotelRoomModel.findOne({ _id: id });
   }
 
@@ -35,7 +36,7 @@ export class RoomsService implements IRoomService {
     return this.HotelRoomModel.find({ hotel, isEnabled }).limit(limit).skip(offset);
   }
 
-  async update(id: string, data: Partial<HotelRoomDocument>): Promise<HotelRoomDocument> {
+  async update(id: ID, data: Partial<HotelRoomDocument>): Promise<HotelRoomDocument> {
     return this.HotelRoomModel.findOneAndUpdate({ _id: id }, data, {
       new: true,
     });

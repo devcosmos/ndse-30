@@ -6,6 +6,7 @@ import { GetChatListParams } from './interfaces/get-chat-list-params';
 import { SendMessageDto } from './interfaces/dto/send-message';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ID } from 'src/utils/types';
 
 @Injectable()
 export class ChatService implements IChatService {
@@ -38,7 +39,7 @@ export class ChatService implements IChatService {
     return message;
   }
 
-  async getMessages(supportRequest: string): Promise<Message[]> {
+  async getMessages(supportRequest: ID): Promise<Message[]> {
     const requestWithMessages = (await this.supportRequestModel.findById(supportRequest).populate('messages')) as any;
     return requestWithMessages.messages;
   }

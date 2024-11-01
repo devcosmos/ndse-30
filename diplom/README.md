@@ -20,19 +20,19 @@
 
 ### Руководство по проекту:
 
-- Переходим в папку проекта (должен быть запущен DOCKER) и выполняем 
+1. Переходим в папку проекта (должен быть запущен DOCKER) и выполняем 
 ```
 docker compose up
 ```
 
-- После выполнения доступны:
-[api](http://localhost:4000)
-[mongodb](http://localhost:27017)
+2. После выполнения доступны:
+- [api](http://localhost:4000)
+- [mongodb](http://localhost:27017)
 
-- По умолчанию реализованы доступы:
+3. По умолчанию реализованы доступы:
 
-Admin - role: 'admin' - login: `admin@mail.ru`; password: `admin@mail.ru`;
-Manager - role: 'manager' - login: `manager@mail.ru`; password: `manager@mail.ru`;
-Client - role: 'client' - login: `client@mail.ru`; password: `client@mail.ru`;
+- Admin - role: 'admin' - login: `admin@mail.ru`; password: `admin@mail.ru`;
+- Manager - role: 'manager' - login: `manager@mail.ru`; password: `manager@mail.ru`;
+- Client - role: 'client' - login: `client@mail.ru`; password: `client@mail.ru`;
 
-По умолчанию добавлены гостиницы и номера.
+4. По умолчанию добавлены гостиницы и номера.

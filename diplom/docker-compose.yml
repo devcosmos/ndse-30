@@ -1,0 +1,32 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+    depends_on:
+      - mongo
+  
+  api:
+    image: node:20.16-alpine
+    ports:
+      - 4000:4000
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - PORT=4000
+      - MONGO_CONNECTION=mongodb://mongo:27017/booking
+      - SESSION_SECRET=secret
+    command: sh -c "npm install && npm run start" 
+    depends_on:
+      - mongo
